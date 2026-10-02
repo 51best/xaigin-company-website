@@ -44,3 +44,31 @@ document.querySelectorAll('[data-contact]').forEach(item => {
   } else { item.textContent = value; }
 });
 document.querySelector('#year').textContent = new Date().getFullYear();
+
+/* M20 / 阅读进度与栏目定位；一次动画帧合并滚动事件。 */
+const progress = document.querySelector('.read-progress');
+const sectionLinks = [...nav.querySelectorAll('a[href^="#"]')];
+const sectionTargets = sectionLinks.map(link => document.querySelector(link.getAttribute('href')));
+let scrollQueued = false;
+function updateReadingPosition() {
+  const available = document.documentElement.scrollHeight - window.innerHeight;
+  const ratio = available > 0 ? Math.min(1, Math.max(0, window.scrollY / available)) : 0;
+  progress.style.transform = `scaleX(${ratio})`;
+  progress.dataset.progress = String(ratio);
+  let current = -1;
+  sectionTargets.forEach((section, index) => {
+    if (section.getBoundingClientRect().top <= 160) current = index;
+  });
+  sectionLinks.forEach((link, index) => {
+    if (index === current) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
+  });
+  scrollQueued = false;
+}
+function queueReadingPosition() {
+  if (!scrollQueued) { scrollQueued = true; requestAnimationFrame(updateReadingPosition); }
+}
+window.addEventListener('scroll', queueReadingPosition, { passive: true });
+window.addEventListener('resize', queueReadingPosition);
+window.addEventListener('load', queueReadingPosition);
+updateReadingPosition();
