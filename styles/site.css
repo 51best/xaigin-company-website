@@ -32,3 +32,8 @@
 
 /* M04 / 三设备写实合成图，完整显示原图。 */
 .device-photo{width:100%;aspect-ratio:4/3;background:#0b1117;display:flex;align-items:center}.device-photo img{display:block;width:100%;height:auto;max-height:none;object-fit:contain}.device-figure figcaption{line-height:1.8}
+
+/* M21 / 原图灯位闪烁；图像与灯光在同一坐标系中裁切。 */
+.hero-image{container-type:size;background:none;animation:none;pointer-events:none}.hero-scene{position:absolute;top:50%;left:50%;width:max(100cqw,176.470588cqh);height:max(100cqh,56.666667cqw);transform:translate(-50%,-50%)}.hero-image::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,11,17,.97) 0%,rgba(5,11,17,.8) 38%,rgba(5,11,17,.08) 100%),linear-gradient(0deg,#080d12 0%,transparent 40%)}.rack-led{opacity:.35}.hero.motion-active .rack-led{animation:rack-blink var(--cycle) ease-in-out var(--delay) infinite}.hero.motion-paused *{animation-play-state:paused!important}#hero-motion-toggle{position:absolute;z-index:3;right:6%;top:25px;min-height:44px;padding:8px 14px;border:1px solid #45635f;background:#09171dc9;color:#c7e0da;font:inherit;font-size:11px;cursor:pointer}#hero-motion-toggle:hover{border-color:var(--accent);color:var(--accent)}#hero-motion-toggle[hidden]{display:none}@keyframes rack-blink{0%,18%,42%,66%,100%{opacity:.12}24%,34%{opacity:1}72%,82%{opacity:.85}}
+@media(max-width:800px){.hero-scene{left:60%;transform:translate(-60%,-50%)}}
+@media(prefers-reduced-motion:reduce){#hero-motion-toggle{display:none}}

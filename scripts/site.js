@@ -72,3 +72,19 @@ window.addEventListener('scroll', queueReadingPosition, { passive: true });
 window.addEventListener('resize', queueReadingPosition);
 window.addEventListener('load', queueReadingPosition);
 updateReadingPosition();
+
+/* M21 / 机房灯光动画与手动暂停；无脚本时保留静态画面。 */
+const hero = document.querySelector('.hero');
+const heroMotion = document.querySelector('#hero-motion-toggle');
+function updateHeroMotion() {
+  hero.classList.toggle('motion-active', !motion.matches);
+  heroMotion.hidden = motion.matches;
+}
+heroMotion.addEventListener('click', () => {
+  const paused = hero.classList.toggle('motion-paused');
+  heroMotion.setAttribute('aria-pressed', String(paused));
+  heroMotion.setAttribute('aria-label', paused ? '播放背景动画' : '暂停背景动画');
+  heroMotion.textContent = paused ? '▷ 播放背景' : 'Ⅱ 暂停背景';
+});
+motion.addEventListener('change', updateHeroMotion);
+updateHeroMotion();
